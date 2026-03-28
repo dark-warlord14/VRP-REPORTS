@@ -1,0 +1,6 @@
+playwright>=1.40
+aiohttp>=3.9
+click>=8.1
+pydantic>=2.5
+rich>=13.0
+markdownify>=0.11

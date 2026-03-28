@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chromium VRP Reports Dashboard</title>
+    <link rel="stylesheet" href="css/pico.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <nav class="top-nav container-fluid">
+        <ul>
+            <li><strong class="brand">VRP Reports</strong></li>
+        </ul>
+        <ul>
+            <li><a href="#/" class="nav-link" data-nav="list">Reports</a></li>
+            <li><a href="#/stats" class="nav-link" data-nav="stats">Statistics</a></li>
+            <li>
+                <button class="theme-toggle outline small" onclick="toggleTheme()" title="Toggle theme">
+                    <span id="themeIcon">&#9790;</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="container" id="app">
+        <p aria-busy="true">Loading...</p>
+    </main>
+
+    <script src="js/vendor/markdown-it.min.js"></script>
+    <script src="js/vendor/chart.umd.min.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

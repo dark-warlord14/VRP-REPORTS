@@ -147,6 +147,18 @@ class TestServerRouting:
         assert status == 200
         assert b"total" in body
 
+    def test_large_file_served_correctly(self, dirs):
+        """Server must correctly serve files larger than a single chunk (8192 bytes)."""
+        ui, data = dirs
+        # 64KB file — larger than the 8192-byte chunk size
+        large_content = b"A" * 65536
+        (data / "large.bin").write_bytes(large_content)
+        with ServerFixture(ui, data, port=19890) as srv:
+            status, headers, body = srv.get("/data/large.bin")
+        assert status == 200
+        assert len(body) == 65536
+        assert body == large_content
+
 
 class TestServerSecurity:
     def test_path_traversal_blocked(self, dirs):

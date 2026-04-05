@@ -70,14 +70,20 @@ class VRPHandler(SimpleHTTPRequestHandler):
         mime = mime_overrides.get(ext, mime)
 
         try:
-            content = filepath.read_bytes()
+            file_size = filepath.stat().st_size
             self.send_response(200)
             self.send_header("Content-Type", mime)
-            self.send_header("Content-Length", str(len(content)))
+            self.send_header("Content-Length", str(file_size))
             self.send_header("Access-Control-Allow-Origin", "*")
             self.send_header("Cache-Control", "no-cache")
             self.end_headers()
-            self.wfile.write(content)
+            _CHUNK = 8192
+            with open(filepath, "rb") as f:
+                while True:
+                    chunk = f.read(_CHUNK)
+                    if not chunk:
+                        break
+                    self.wfile.write(chunk)
         except Exception as e:
             self.send_error(500, str(e))
 

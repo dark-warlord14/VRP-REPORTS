@@ -15,9 +15,14 @@ from vrp.config import (
 import logging
 
 from vrp.models import Attachment, Update, Issue
-from vrp.utils import logger  # noqa: F401
 
 logger = logging.getLogger("vrp.parser")
+
+# Compiled once at import time — case-insensitive rationale extraction
+_RATIONALE_RE = re.compile(
+    r'Rationale for this decision:\s*(.*?)(?=Important:|$)',
+    re.DOTALL | re.IGNORECASE,
+)
 
 
 def safe_get(data: Any, *indices, default=None) -> Any:
@@ -204,19 +209,12 @@ def extract_bounty_info(updates: list[Update]) -> tuple[bool, Optional[float], O
         if match:
             amount = float(match.group(1).replace(",", ""))
 
-        # Extract rationale (text between "Rationale for this decision:" and "Important:")
+        # Extract rationale using regex (case-insensitive, stops at "Important:")
         rationale = None
         text = update.text_plain
-        rat_start = text.find("Rationale for this decision:")
-        if rat_start != -1:
-            rat_text = text[rat_start + len("Rationale for this decision:"):]
-            rat_end = rat_text.find("Important:")
-            if rat_end == -1:
-                rat_end = rat_text.find("\n\n\n")
-            if rat_end != -1:
-                rationale = rat_text[:rat_end].strip()
-            else:
-                rationale = rat_text[:500].strip()
+        rat_match = _RATIONALE_RE.search(text)
+        if rat_match:
+            rationale = rat_match.group(1).strip()[:500]
 
         return True, amount, rationale
 

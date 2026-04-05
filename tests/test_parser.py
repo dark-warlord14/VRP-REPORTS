@@ -233,6 +233,31 @@ class TestExtractBountyInfo:
         _, amount, _ = extract_bounty_info(updates)
         assert amount == 15000.0
 
+    def test_rationale_extracted_case_insensitive(self):
+        """Rationale markers should match regardless of casing."""
+        bounty_text = (
+            "Chrome VRP Panel has decided to award you $1,000.\n\n"
+            "RATIONALE FOR THIS DECISION: sandbox escape via type confusion.\n\n"
+            "IMPORTANT: Please confirm receipt."
+        )
+        raw = make_raw_updates(bounty_text=bounty_text)
+        updates = parse_updates(raw, ISSUE_ID)
+        _, _, rationale = extract_bounty_info(updates)
+        assert rationale is not None
+        assert "sandbox escape" in rationale
+
+    def test_rationale_extracted_when_important_absent(self):
+        """Rationale extraction works when 'Important:' is not present."""
+        bounty_text = (
+            "Chrome VRP Panel has decided to award you $2,000.\n\n"
+            "Rationale for this decision: buffer overflow in audio decoder."
+        )
+        raw = make_raw_updates(bounty_text=bounty_text)
+        updates = parse_updates(raw, ISSUE_ID)
+        _, _, rationale = extract_bounty_info(updates)
+        assert rationale is not None
+        assert "buffer overflow" in rationale
+
 
 # ---------------------------------------------------------------------------
 # extract_cve_ids

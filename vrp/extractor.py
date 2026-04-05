@@ -195,14 +195,18 @@ async def scrape_all(
                     progress.update(task, advance=1)
                     await asyncio.sleep(DELAY_BETWEEN_ISSUES)
 
-            # Process in batches to allow browser restart
+            # Process in batches to allow periodic browser restart.
+            # asyncio.gather(*tasks) fully awaits ALL tasks in the batch
+            # (including their DELAY_BETWEEN_ISSUES sleeps) before we proceed,
+            # so context.close() is only called after every task has released
+            # its semaphore and completed. This prevents use-after-close races.
             batch_size = BROWSER_RESTART_INTERVAL
             for i in range(0, len(issue_ids), batch_size):
                 batch = issue_ids[i : i + batch_size]
                 tasks = [process_one(iid) for iid in batch]
-                await asyncio.gather(*tasks)
+                await asyncio.gather(*tasks)  # all batch tasks finish here
 
-                # Restart browser between batches
+                # Safe to restart context — no in-flight tasks remain
                 if i + batch_size < len(issue_ids):
                     logger.info("Restarting browser context...")
                     await context.close()

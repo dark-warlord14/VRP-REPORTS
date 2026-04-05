@@ -87,10 +87,11 @@ def build_stats() -> dict:
     bounty_amounts = []
 
     for entry in index:
-        amount = entry.get("bounty_amount") or 0
+        raw_amount = entry.get("bounty_amount")
+        amount = raw_amount if raw_amount is not None else 0.0
         stats["total_bounty"] += amount
-        if amount:
-            bounty_amounts.append(amount)
+        if raw_amount is not None:
+            bounty_amounts.append(raw_amount)
 
         year = entry.get("year")
         if year:
@@ -140,7 +141,7 @@ def build_stats() -> dict:
     stats["bounty_histogram"] = histogram
 
     # Top bounties
-    top = sorted(index, key=lambda x: x.get("bounty_amount") or 0, reverse=True)[:20]
+    top = sorted(index, key=lambda x: x.get("bounty_amount") if x.get("bounty_amount") is not None else -1, reverse=True)[:20]
     stats["top_bounties"] = [
         {
             "id": e["id"],

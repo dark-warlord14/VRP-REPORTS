@@ -142,3 +142,25 @@ class TestBuildStats:
         # by_year is keyed by string year
         assert stats["by_year"]["2024"]["count"] == 1
         assert stats["by_year"]["2025"]["count"] == 1
+
+    def test_zero_bounty_amount_counted_in_avg_and_histogram(self, tmp_path):
+        """bounty_amount=0.0 is falsy; confirm it's not excluded from stats."""
+        issues_dir = tmp_path / "issues"
+        issues_dir.mkdir()
+        # One issue with $0 bounty (confirmed), one with $5000
+        _write_report(issues_dir, "1", {"bounty_amount": 0.0, "created_date": "2024-01-01T00:00:00+00:00"})
+        _write_report(issues_dir, "2", {"bounty_amount": 5000.0, "created_date": "2024-01-01T00:00:00+00:00"})
+
+        with patch("vrp.index_builder.ISSUES_DIR", issues_dir), \
+             patch("vrp.index_builder.INDEX_FILE", tmp_path / "index.json"), \
+             patch("vrp.index_builder.STATS_FILE", tmp_path / "stats.json"):
+            from vrp.index_builder import rebuild_index, build_stats
+            rebuild_index()
+            stats = build_stats()
+
+        assert stats["total_bounty"] == 5000.0
+        # avg should be (0.0 + 5000.0) / 2 = 2500.0, not 5000.0 / 1 = 5000.0
+        assert stats["avg_bounty"] == 2500.0
+        # $0 should appear in the $0-500 histogram bucket
+        zero_bucket = next(b for b in stats["bounty_histogram"] if b["range"] == "$0-500")
+        assert zero_bucket["count"] == 1

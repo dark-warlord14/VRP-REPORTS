@@ -2,10 +2,9 @@
 
 from collections import Counter, defaultdict
 from datetime import datetime
-from pathlib import Path
 
-from vrp.config import ISSUES_DIR, INDEX_FILE, STATS_FILE
-from vrp.utils import logger, load_json, save_json, create_progress
+from vrp.config import INDEX_FILE, ISSUES_DIR, STATS_FILE
+from vrp.utils import create_progress, load_json, logger, save_json
 
 
 def rebuild_index() -> int:
@@ -142,7 +141,11 @@ def build_stats() -> dict:
     stats["bounty_histogram"] = histogram
 
     # Top bounties
-    top = sorted(index, key=lambda x: x.get("bounty_amount") if x.get("bounty_amount") is not None else -1, reverse=True)[:20]
+    top = sorted(
+        index,
+        key=lambda x: x.get("bounty_amount") if x.get("bounty_amount") is not None else -1,
+        reverse=True,
+    )[:20]
     stats["top_bounties"] = [
         {
             "id": e["id"],

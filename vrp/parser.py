@@ -10,10 +10,17 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from vrp.config import (
-    BOUNTY_AWARD_PATTERN, BOUNTY_INDICATORS, STATUS_MAP, SEVERITY_MAP,
-    PRIORITY_MAP, FIELD_COMPONENT, FIELD_CHROME_VERSION, FIELD_OS, FIELD_BOUNTY,
+    BOUNTY_AWARD_PATTERN,
+    BOUNTY_INDICATORS,
+    FIELD_BOUNTY,
+    FIELD_CHROME_VERSION,
+    FIELD_COMPONENT,
+    FIELD_OS,
+    PRIORITY_MAP,
+    SEVERITY_MAP,
+    STATUS_MAP,
 )
-from vrp.models import Attachment, Update, Issue
+from vrp.models import Attachment, Issue, Update
 
 logger = logging.getLogger("vrp.parser")
 
@@ -22,6 +29,7 @@ _RATIONALE_RE = re.compile(
     r'Rationale for this decision:\s*(.*?)(?=Important:|$)',
     re.DOTALL | re.IGNORECASE,
 )
+_CVE_RE = re.compile(r'CVE-\d{4}-\d{4,}')
 
 
 def safe_get(data: Any, *indices, default=None) -> Any:
@@ -222,11 +230,10 @@ def extract_bounty_info(updates: list[Update]) -> tuple[bool, Optional[float], O
 
 def extract_cve_ids(updates: list[Update]) -> list[str]:
     """Extract CVE IDs from all update text."""
-    cve_pattern = re.compile(r'CVE-\d{4}-\d{4,}')
     cves = set()
     for update in updates:
         if update.text_plain:
-            cves.update(cve_pattern.findall(update.text_plain))
+            cves.update(_CVE_RE.findall(update.text_plain))
     return sorted(cves)
 
 

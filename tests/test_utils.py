@@ -1,15 +1,9 @@
 """Tests for vrp/utils.py."""
 
 import asyncio
-import json
-import os
-from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
-import pytest
-
-from vrp.utils import sanitize_filename, save_json, load_json, download_file
-
+from vrp.utils import download_file, load_json, sanitize_filename, save_json
 
 # ---------------------------------------------------------------------------
 # sanitize_filename

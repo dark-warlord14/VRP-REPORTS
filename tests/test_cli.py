@@ -5,11 +5,11 @@ from unittest.mock import patch
 
 import pytest
 from click.testing import CliRunner
-
 from vrp.cli import cli
-from tests.fixtures import ISSUE_ID, make_raw_updates, make_raw_metadata
 from vrp.parser import build_issue
 from vrp.utils import save_json
+
+from tests.fixtures import ISSUE_ID, make_raw_metadata, make_raw_updates
 
 
 @pytest.fixture()
@@ -42,7 +42,6 @@ def _patch_paths(data_dir: Path):
         patch("vrp.index_builder.STATS_FILE", data_dir / "stats.json"),
         patch("vrp.markdown_gen.ISSUES_DIR", issues_dir),
         patch("vrp.extractor.ISSUES_DIR", issues_dir),
-        patch("vrp.extractor.INDEX_FILE", data_dir / "index.json"),
         patch("vrp.extractor.QUEUE_FILE", data_dir / "discovery_queue.json"),
     ]
 

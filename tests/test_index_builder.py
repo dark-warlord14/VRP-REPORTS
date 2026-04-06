@@ -4,16 +4,14 @@ import json
 from pathlib import Path
 from unittest.mock import patch
 
-import pytest
-
-from tests.fixtures import ISSUE_ID, make_raw_updates, make_raw_metadata
 from vrp.parser import build_issue
 from vrp.utils import save_json
+
+from tests.fixtures import make_raw_metadata, make_raw_updates
 
 
 def _write_report(issues_dir: Path, issue_id: str, overrides: dict = None) -> dict:
     """Write a minimal report.json for an issue."""
-    from vrp.parser import build_issue
     raw_u = make_raw_updates()
     raw_m = make_raw_metadata()
     issue = build_issue(issue_id, raw_u, raw_m)
@@ -152,7 +150,7 @@ class TestBuildStats:
         with patch("vrp.index_builder.ISSUES_DIR", issues_dir), \
              patch("vrp.index_builder.INDEX_FILE", tmp_path / "index.json"), \
              patch("vrp.index_builder.STATS_FILE", tmp_path / "stats.json"):
-            from vrp.index_builder import rebuild_index, build_stats
+            from vrp.index_builder import build_stats, rebuild_index
             rebuild_index()
             stats = build_stats()
 
@@ -169,7 +167,7 @@ class TestBuildStats:
         with patch("vrp.index_builder.ISSUES_DIR", issues_dir), \
              patch("vrp.index_builder.INDEX_FILE", tmp_path / "index.json"), \
              patch("vrp.index_builder.STATS_FILE", tmp_path / "stats.json"):
-            from vrp.index_builder import rebuild_index, build_stats
+            from vrp.index_builder import build_stats, rebuild_index
             rebuild_index()
             stats = build_stats()
 
@@ -188,7 +186,7 @@ class TestBuildStats:
         with patch("vrp.index_builder.ISSUES_DIR", issues_dir), \
              patch("vrp.index_builder.INDEX_FILE", tmp_path / "index.json"), \
              patch("vrp.index_builder.STATS_FILE", tmp_path / "stats.json"):
-            from vrp.index_builder import rebuild_index, build_stats
+            from vrp.index_builder import build_stats, rebuild_index
             rebuild_index()
             stats = build_stats()
 

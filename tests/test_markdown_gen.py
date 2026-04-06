@@ -3,11 +3,10 @@
 from pathlib import Path
 from unittest.mock import patch
 
-import pytest
-
-from tests.fixtures import ISSUE_ID, make_raw_updates, make_raw_metadata
 from vrp.parser import build_issue
 from vrp.utils import save_json
+
+from tests.fixtures import ISSUE_ID, make_raw_metadata, make_raw_updates
 
 
 def _setup_issue(issues_dir: Path, issue_id: str, **raw_u_kwargs) -> Path:

@@ -8,15 +8,22 @@ import asyncio
 import json
 from pathlib import Path
 
-from playwright.async_api import async_playwright, BrowserContext
+import aiohttp
+from playwright.async_api import BrowserContext, async_playwright
 
 from vrp.config import (
-    ISSUES_DIR, INDEX_FILE, QUEUE_FILE, HEADLESS, TIMEOUT,
-    CONCURRENCY_LIMIT, DELAY_BETWEEN_ISSUES, USER_AGENT,
-    BROWSER_RESTART_INTERVAL, BOUNTY_INDICATORS,
+    BOUNTY_INDICATORS,
+    BROWSER_RESTART_INTERVAL,
+    CONCURRENCY_LIMIT,
+    DELAY_BETWEEN_ISSUES,
+    HEADLESS,
+    ISSUES_DIR,
+    QUEUE_FILE,
+    TIMEOUT,
+    USER_AGENT,
 )
-from vrp.parser import build_issue, parse_updates, collect_all_attachments
-from vrp.utils import logger, save_json, load_json, download_file, sanitize_filename, create_progress
+from vrp.parser import build_issue
+from vrp.utils import create_progress, download_file, load_json, logger, sanitize_filename, save_json
 
 
 def _issue_dir(issue_id: str) -> Path:
@@ -71,14 +78,14 @@ async def scrape_issue(
                 else:
                     captured["metadata"] = data
         except Exception as e:
-            logger.debug(f"Response handler error for {issue_id}: {e}")
+            logger.warning(f"Response handler error for {issue_id}: {e}")
 
     page = await context.new_page()
     page.on("response", on_response)
 
     try:
         await page.goto(url, wait_until="networkidle", timeout=TIMEOUT)
-        await asyncio.sleep(5)
+        await asyncio.sleep(1)
 
         # Extract cookies after navigation so auth cookies are populated
         cookies = await _extract_cookies(context)
@@ -113,20 +120,21 @@ async def scrape_issue(
 
         logger.info(f"BOUNTY: {issue_id} - ${issue.bounty_amount or '?'} - {issue.title[:60]}")
 
-        # Download attachments
+        # Download attachments using a shared session for connection reuse
         att_dir = idir / "attachments"
-        for att in issue.attachments:
-            fname = sanitize_filename(att.filename)
-            local_path = att_dir / fname
-            if not local_path.exists():
-                ok = await download_file(
-                    att.url, str(local_path), cookies=cookies,
-                    expected_mime=att.mime_type,
-                )
-                if not ok:
-                    att.local_path = None
-                    continue
-            att.local_path = f"attachments/{fname}"
+        async with aiohttp.ClientSession() as dl_session:
+            for att in issue.attachments:
+                fname = sanitize_filename(att.filename)
+                local_path = att_dir / fname
+                if not local_path.exists():
+                    ok = await download_file(
+                        att.url, str(local_path), cookies=cookies,
+                        expected_mime=att.mime_type, session=dl_session,
+                    )
+                    if not ok:
+                        att.local_path = None
+                        continue
+                att.local_path = f"attachments/{fname}"
 
         # Save enriched report
         save_json(idir / "report.json", issue.model_dump())

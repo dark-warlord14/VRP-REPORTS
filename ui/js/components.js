@@ -16,7 +16,7 @@ const Components = {
     },
 
     bountyBadge(amount) {
-        if (!amount) return '<span class="bounty-badge">Confirmed</span>';
+        if (amount == null) return '<span class="bounty-badge">Confirmed</span>';
         return `<span class="bounty-badge">$${amount.toLocaleString()}</span>`;
     },
 

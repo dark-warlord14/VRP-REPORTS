@@ -1,12 +1,11 @@
 """Generate Markdown reports from parsed issue data."""
 
-from pathlib import Path
 
 from markdownify import markdownify as md
 
 from vrp.config import ISSUES_DIR
-from vrp.parser import parse_updates, extract_bounty_info
-from vrp.utils import logger, load_json, create_progress
+from vrp.parser import parse_updates
+from vrp.utils import create_progress, load_json, logger
 
 
 def _html_to_md(html: str) -> str:

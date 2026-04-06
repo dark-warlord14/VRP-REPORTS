@@ -1,15 +1,15 @@
 """Shared utilities for VRP Reports."""
 
-import os
-import json
-import re
 import asyncio
+import json
 import logging
+import os
+import re
 from typing import Any, Optional
 
 import aiohttp
 from rich.logging import RichHandler
-from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn
+from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn
 
 # --- Logging ---
 logging.basicConfig(
@@ -60,23 +60,34 @@ async def download_file(
     cookies: Optional[dict] = None,
     max_retries: int = 3,
     expected_mime: Optional[str] = None,
+    session: Optional[aiohttp.ClientSession] = None,
 ) -> bool:
     """Download a file with retry and optional cookie auth.
 
     If expected_mime is provided and the server returns text/html instead
     (e.g. an auth redirect page), the download is rejected as failed.
+
+    If session is provided, it is reused directly (caller owns its lifecycle).
+    Otherwise a new session is created per attempt.
     """
     filepath = str(filepath)
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
 
     for attempt in range(max_retries):
         try:
-            jar = aiohttp.CookieJar()
-            async with aiohttp.ClientSession(cookie_jar=jar) as session:
-                if cookies:
+            if session is not None:
+                _sess = session
+                _ctx = None
+            else:
+                jar = aiohttp.CookieJar()
+                _ctx = aiohttp.ClientSession(cookie_jar=jar)
+                _sess = await _ctx.__aenter__()
+
+            try:
+                if cookies and session is None:
                     for name, value in cookies.items():
-                        jar.update_cookies({name: value})
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=60)) as resp:
+                        _sess.cookie_jar.update_cookies({name: value})
+                async with _sess.get(url, timeout=aiohttp.ClientTimeout(total=60)) as resp:
                     if resp.status == 200:
                         resp_ct = resp.headers.get("content-type", "")
                         # Reject HTML responses when we expect non-HTML content
@@ -90,9 +101,16 @@ async def download_file(
                                 f"Download returned HTML for {url} (auth required?), skipping"
                             )
                             return False
-                        with open(filepath, "wb") as f:
-                            async for chunk in resp.content.iter_chunked(1024 * 64):
-                                f.write(chunk)
+                        tmp_path = filepath + ".partial"
+                        try:
+                            with open(tmp_path, "wb") as f:
+                                async for chunk in resp.content.iter_chunked(1024 * 64):
+                                    f.write(chunk)
+                            os.replace(tmp_path, filepath)
+                        except Exception:
+                            if os.path.exists(tmp_path):
+                                os.unlink(tmp_path)
+                            raise
                         return True
                     elif resp.status == 429:
                         wait = 2 ** (attempt + 1)
@@ -101,6 +119,9 @@ async def download_file(
                     else:
                         logger.error(f"Download failed {url}: HTTP {resp.status}")
                         return False
+            finally:
+                if _ctx is not None:
+                    await _ctx.__aexit__(None, None, None)
         except Exception as e:
             if attempt < max_retries - 1:
                 wait = 2 ** attempt

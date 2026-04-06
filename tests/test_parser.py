@@ -1,16 +1,21 @@
 """Tests for vrp/parser.py — core parsing logic."""
 
-import pytest
-from tests.fixtures import (
-    ISSUE_ID, TS_EPOCH, TS_ISO, BOUNTY_TEXT,
-    make_raw_updates, make_raw_metadata,
-)
 from vrp.parser import (
-    safe_get, parse_updates, parse_metadata,
-    extract_bounty_info, extract_cve_ids,
-    collect_all_attachments, build_issue,
+    build_issue,
+    collect_all_attachments,
+    extract_bounty_info,
+    extract_cve_ids,
+    parse_metadata,
+    parse_updates,
+    safe_get,
 )
 
+from tests.fixtures import (
+    ISSUE_ID,
+    TS_ISO,
+    make_raw_metadata,
+    make_raw_updates,
+)
 
 # ---------------------------------------------------------------------------
 # safe_get

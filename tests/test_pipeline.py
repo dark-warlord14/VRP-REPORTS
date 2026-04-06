@@ -6,13 +6,12 @@ raw JSON through to a browsable index.
 """
 
 import json
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-
-from tests.fixtures import ISSUE_ID, make_raw_updates, make_raw_metadata
 from vrp.utils import save_json
+
+from tests.fixtures import make_raw_metadata, make_raw_updates
 
 
 @pytest.fixture()
@@ -50,7 +49,6 @@ def _all_patches(data_dir):
         patch("vrp.config.QUEUE_FILE", data_dir / "discovery_queue.json"),
         patch("vrp.extractor.ISSUES_DIR", issues_dir),
         patch("vrp.extractor.QUEUE_FILE", data_dir / "discovery_queue.json"),
-        patch("vrp.extractor.INDEX_FILE", data_dir / "index.json"),
         patch("vrp.markdown_gen.ISSUES_DIR", issues_dir),
         patch("vrp.index_builder.ISSUES_DIR", issues_dir),
         patch("vrp.index_builder.INDEX_FILE", data_dir / "index.json"),
@@ -106,7 +104,7 @@ class TestFullOfflinePipeline:
             p.start()
         try:
             from vrp.extractor import reprocess_existing
-            from vrp.index_builder import rebuild_index, build_stats
+            from vrp.index_builder import build_stats, rebuild_index
             reprocess_existing()
             count = rebuild_index()
             stats = build_stats()
@@ -154,7 +152,7 @@ class TestFullOfflinePipeline:
             p.start()
         try:
             from vrp.extractor import reprocess_existing
-            from vrp.index_builder import rebuild_index, build_stats
+            from vrp.index_builder import build_stats, rebuild_index
             reprocess_existing()
             rebuild_index()
             stats = build_stats()

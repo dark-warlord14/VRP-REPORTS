@@ -6,7 +6,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 
-from vrp.config import DATA_DIR, ISSUES_DIR, INDEX_FILE, QUEUE_FILE, get_all_years
+from vrp.config import DATA_DIR, INDEX_FILE, ISSUES_DIR, QUEUE_FILE
 from vrp.utils import load_json
 
 console = Console()
@@ -71,7 +71,7 @@ def markdown(force):
 @cli.command()
 def index():
     """Rebuild index.json and stats.json."""
-    from vrp.index_builder import rebuild_index, build_stats
+    from vrp.index_builder import build_stats, rebuild_index
 
     count = rebuild_index()
     stats = build_stats()
@@ -92,9 +92,9 @@ def serve(port):
 def run(no_headless):
     """Full pipeline: discover -> scrape -> reprocess -> markdown -> index."""
     from vrp.discovery import discover_all
-    from vrp.extractor import scrape_all, reprocess_existing
+    from vrp.extractor import reprocess_existing, scrape_all
+    from vrp.index_builder import build_stats, rebuild_index
     from vrp.markdown_gen import generate_all_markdown
-    from vrp.index_builder import rebuild_index, build_stats
 
     headless = not no_headless
 
@@ -124,7 +124,7 @@ def run(no_headless):
     count = rebuild_index()
     stats = build_stats()
 
-    console.print(f"\n[bold green]Pipeline complete![/bold green]")
+    console.print("\n[bold green]Pipeline complete![/bold green]")
     console.print(f"  Reports: {count}")
     console.print(f"  Total bounty: ${stats.get('total_bounty', 0):,.2f}")
 

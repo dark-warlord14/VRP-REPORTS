@@ -1,10 +1,9 @@
 """Simple HTTP server for the VRP dashboard."""
 
 import mimetypes
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-from pathlib import Path
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
-from vrp.config import PROJECT_ROOT, UI_DIR, DATA_DIR
+from vrp.config import DATA_DIR, UI_DIR
 from vrp.utils import logger
 
 
@@ -94,7 +93,7 @@ class VRPHandler(SimpleHTTPRequestHandler):
 
 def run_server(port: int = 8080):
     """Start the VRP dashboard server (binds to localhost only)."""
-    server = HTTPServer(("127.0.0.1", port), VRPHandler)
+    server = ThreadingHTTPServer(("127.0.0.1", port), VRPHandler)
     logger.info(f"Dashboard: http://localhost:{port}")
     logger.info("Press Ctrl+C to stop")
     try:

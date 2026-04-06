@@ -74,7 +74,10 @@ def make_raw_metadata(
       fields[14] = custom_fields list
     """
     from vrp.config import (
-        FIELD_COMPONENT, FIELD_CHROME_VERSION, FIELD_OS, FIELD_BOUNTY,
+        FIELD_BOUNTY,
+        FIELD_CHROME_VERSION,
+        FIELD_COMPONENT,
+        FIELD_OS,
     )
 
     custom_fields = [

@@ -164,3 +164,28 @@ All defaults can be overridden with environment variables:
 | `VRP_TIMEOUT` | `60000` | Page load timeout (ms) |
 | `VRP_DELAY` | `2` | Delay between issues (seconds) |
 | `VRP_BROWSER_RESTART` | `100` | Restart browser every N issues |
+
+## Testing
+
+Install dev dependencies, then run the test suite:
+
+```bash
+pip install -e ".[dev]"
+pytest tests/ -v
+# or: make test
+```
+
+All tests run offline — no Playwright install or scraped data required.
+
+## Contributing
+
+1. Fork and create a branch
+2. `make lint` and `make test` must pass
+3. Open a PR against `master`
+
+## Deployment
+
+The GitHub Actions workflow in `.github/workflows/scrape.yml` runs daily at 6 AM UTC:
+- Scraped data lives on the `data` branch (separate from `master` code branch)
+- `build.sh` assembles a static `dist/` (UI + report.json/report.md, no attachments) for Cloudflare Pages
+- Set `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in repository secrets to enable deployment

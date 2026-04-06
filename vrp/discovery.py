@@ -10,25 +10,32 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 
 from vrp.config import (
-    DATA_DIR, QUEUE_FILE, HEADLESS, TIMEOUT, USER_AGENT,
-    MAX_SEARCH_PAGES, build_search_url, get_all_years,
+    DATA_DIR,
+    HEADLESS,
+    MAX_SEARCH_PAGES,
+    QUEUE_FILE,
+    TIMEOUT,
+    USER_AGENT,
+    build_search_url,
+    get_all_years,
 )
-from vrp.utils import logger, save_json, load_json
+from vrp.utils import load_json, logger, save_json
 
 
 def _checkpoint_path(year: int) -> Path:
     return DATA_DIR / f"discovery_{year}.json"
 
 
-async def discover_ids_for_year(year: int, headless: bool = HEADLESS) -> set[str]:
+async def discover_ids_for_year(year: int, headless: bool = HEADLESS, resume: bool = True) -> set[str]:
     """Discover all issue IDs for a specific year."""
     checkpoint = _checkpoint_path(year)
 
-    # Load existing checkpoint
-    existing = load_json(checkpoint)
-    if existing:
-        logger.info(f"[{year}] Loaded {len(existing)} IDs from checkpoint")
-        return set(existing)
+    # Load existing checkpoint (unless caller explicitly disables resume)
+    if resume:
+        existing = load_json(checkpoint)
+        if existing:
+            logger.info(f"[{year}] Loaded {len(existing)} IDs from checkpoint")
+            return set(existing)
 
     search_url = build_search_url(year)
     logger.info(f"[{year}] Discovering issues: {search_url[:100]}...")
@@ -123,7 +130,7 @@ async def discover_all(
             logger.info(f"[{year}] Skipped (checkpoint exists: {len(cached)} IDs)")
             continue
 
-        year_ids = await discover_ids_for_year(year, headless=headless)
+        year_ids = await discover_ids_for_year(year, headless=headless, resume=resume)
         all_ids.update(year_ids)
 
     # Save master queue

@@ -5,12 +5,10 @@ import json
 import threading
 from http.client import HTTPConnection
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
-
-from vrp.server import VRPHandler, run_server
-
+from vrp.server import VRPHandler
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -41,8 +39,6 @@ def make_handler(path: str, ui_dir: Path, data_dir: Path):
         def sendall(self, data):
             output.write(data)
 
-    request = FakeSocket()
-
     with patch("vrp.server.UI_DIR", ui_dir), \
          patch("vrp.server.DATA_DIR", data_dir):
         handler = VRPHandler.__new__(VRPHandler)
@@ -61,11 +57,7 @@ def make_handler(path: str, ui_dir: Path, data_dir: Path):
 # We use an actual test HTTP server for integration-style tests
 class ServerFixture:
     """Spin up a real server thread for black-box HTTP tests."""
-    def __init__(self, ui_dir: Path, data_dir: Path, port: int = 19876):
-        import socketserver
-        from http.server import HTTPServer
-
-        self.port = port
+    def __init__(self, ui_dir: Path, data_dir: Path):
         self.ui_dir = ui_dir
         self.data_dir = data_dir
 
@@ -78,9 +70,11 @@ class ServerFixture:
     def __enter__(self):
         for p in self._patches:
             p.start()
-        from vrp.server import VRPHandler
         from http.server import HTTPServer
-        self.server = HTTPServer(("127.0.0.1", self.port), VRPHandler)
+
+        from vrp.server import VRPHandler
+        self.server = HTTPServer(("127.0.0.1", 0), VRPHandler)
+        self.port = self.server.server_address[1]  # OS-assigned port
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
         return self
@@ -97,9 +91,6 @@ class ServerFixture:
         body = resp.read()
         conn.close()
         return resp.status, dict(resp.getheaders()), body
-
-
-from unittest.mock import MagicMock
 
 
 # ---------------------------------------------------------------------------
@@ -119,7 +110,7 @@ def dirs(tmp_path):
 class TestServerRouting:
     def test_root_serves_index_html(self, dirs):
         ui, data = dirs
-        with ServerFixture(ui, data, port=19880) as srv:
+        with ServerFixture(ui, data) as srv:
             status, headers, body = srv.get("/")
         assert status == 200
         assert b"dashboard" in body
@@ -127,14 +118,14 @@ class TestServerRouting:
     def test_data_json_served(self, dirs):
         ui, data = dirs
         (data / "index.json").write_text('[{"id": "1"}]')
-        with ServerFixture(ui, data, port=19881) as srv:
+        with ServerFixture(ui, data) as srv:
             status, headers, body = srv.get("/data/index.json")
         assert status == 200
         assert json.loads(body) == [{"id": "1"}]
 
     def test_unknown_path_falls_back_to_index(self, dirs):
         ui, data = dirs
-        with ServerFixture(ui, data, port=19882) as srv:
+        with ServerFixture(ui, data) as srv:
             status, _, body = srv.get("/unknown/route")
         assert status == 200
         assert b"dashboard" in body
@@ -142,7 +133,7 @@ class TestServerRouting:
     def test_query_string_stripped(self, dirs):
         ui, data = dirs
         (data / "stats.json").write_text('{"total": 1}')
-        with ServerFixture(ui, data, port=19883) as srv:
+        with ServerFixture(ui, data) as srv:
             status, _, body = srv.get("/data/stats.json?cache=bust")
         assert status == 200
         assert b"total" in body
@@ -153,7 +144,7 @@ class TestServerRouting:
         # 64KB file — larger than the 8192-byte chunk size
         large_content = b"A" * 65536
         (data / "large.bin").write_bytes(large_content)
-        with ServerFixture(ui, data, port=19890) as srv:
+        with ServerFixture(ui, data) as srv:
             status, headers, body = srv.get("/data/large.bin")
         assert status == 200
         assert len(body) == 65536
@@ -164,7 +155,7 @@ class TestServerSecurity:
     def test_path_traversal_blocked(self, dirs):
         ui, data = dirs
         # Try to escape data dir
-        with ServerFixture(ui, data, port=19884) as srv:
+        with ServerFixture(ui, data) as srv:
             status, _, _ = srv.get("/data/../../../etc/passwd")
         # Should either 403 or 200 with index.html fallback — not a real passwd file
         # The resolved path won't be relative to ui or data, so 403
@@ -175,7 +166,7 @@ class TestServerSecurity:
 
     def test_path_traversal_ui_blocked(self, dirs):
         ui, data = dirs
-        with ServerFixture(ui, data, port=19885) as srv:
+        with ServerFixture(ui, data) as srv:
             status, _, _ = srv.get("/../../../etc/passwd")
         assert status in (403, 200)
 
@@ -191,7 +182,7 @@ class TestServerSecurity:
             def server_close(self):
                 pass
 
-        with patch("vrp.server.HTTPServer", FakeHTTPServer):
+        with patch("vrp.server.ThreadingHTTPServer", FakeHTTPServer):
             from vrp.server import run_server
             run_server(port=19999)
 
@@ -202,19 +193,19 @@ class TestServerMimeTypes:
     def test_json_mime(self, dirs):
         ui, data = dirs
         (data / "x.json").write_text("{}")
-        with ServerFixture(ui, data, port=19886) as srv:
+        with ServerFixture(ui, data) as srv:
             _, headers, _ = srv.get("/data/x.json")
         assert "application/json" in headers.get("Content-Type", "")
 
     def test_js_mime(self, dirs):
         ui, data = dirs
         (ui / "app.js").write_text("const x = 1;")
-        with ServerFixture(ui, data, port=19887) as srv:
+        with ServerFixture(ui, data) as srv:
             _, headers, _ = srv.get("/app.js")
         assert "javascript" in headers.get("Content-Type", "")
 
     def test_html_mime(self, dirs):
         ui, data = dirs
-        with ServerFixture(ui, data, port=19888) as srv:
+        with ServerFixture(ui, data) as srv:
             _, headers, _ = srv.get("/")
         assert "text/html" in headers.get("Content-Type", "")

@@ -63,7 +63,7 @@ def rebuild_index() -> int:
 def build_stats() -> dict:
     """Compute analytics from index.json and save to stats.json."""
     index = load_json(INDEX_FILE)
-    if not index:
+    if index is None:
         logger.error("No index.json found. Run 'vrp index' first.")
         return {}
 

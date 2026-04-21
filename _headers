@@ -5,6 +5,19 @@
 
 /data/*
   Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+
+/llms.txt
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain; charset=utf-8
+
+/skill.md
+  Access-Control-Allow-Origin: *
+  Content-Type: text/markdown; charset=utf-8
+
+/schema.json
+  Access-Control-Allow-Origin: *
 
 /css/*
   Cache-Control: public, max-age=604800

@@ -14,6 +14,9 @@ mkdir -p "${DIST}"
 # Copy UI assets
 cp -r ui/* "${DIST}/"
 
+# Copy Cloudflare _headers file (root-level config)
+cp _headers "${DIST}/"
+
 # Inject deploy-mode meta tag into index.html (after <meta charset=...>)
 sed -i.bak 's|<meta charset="UTF-8">|<meta charset="UTF-8">\n    <meta name="vrp-deploy-mode" content="static">|' "${DIST}/index.html"
 rm -f "${DIST}/index.html.bak"

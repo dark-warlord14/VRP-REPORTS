@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrp-reports.pages.dev/schema.json",
+  "title": "Chromium VRP Report",
+  "description": "Schema for /data/issues/<id>/report.json entries. The /data/index.json file is an array of summary entries — a subset of these fields (id, title, url, status, severity, component, bounty_amount, created_date, year, attachment_count, local_path, has_markdown).",
+  "type": "object",
+  "required": ["id", "url", "title", "bounty_confirmed"],
+  "properties": {
+    "id": {"type": "string", "description": "Chromium issue tracker ID."},
+    "url": {"type": "string", "format": "uri"},
+    "title": {"type": "string"},
+    "status": {"type": "string", "examples": ["Fixed", "Assigned", "Verified", "Duplicate", "WontFix"]},
+    "severity": {"type": "string", "enum": ["S0-Critical", "S1-High", "S2-Medium", "S3-Low", "Unknown"]},
+    "priority": {"type": "string", "examples": ["P0", "P1", "P2", "P3", "P4"]},
+    "component": {"type": "string", "description": "Slash-delimited Chromium component path, e.g. 'Blink>Network>Fetch'."},
+    "os_platforms": {"type": "array", "items": {"type": "string"}},
+    "chrome_version": {"type": ["string", "null"]},
+    "cve_ids": {"type": "array", "items": {"type": "string"}},
+    "reporter": {"type": ["string", "null"], "description": "Partial email (redacted by Chromium)."},
+    "assignee": {"type": ["string", "null"]},
+    "created_date": {"type": ["string", "null"], "format": "date-time"},
+    "modified_date": {"type": ["string", "null"], "format": "date-time"},
+    "bounty_confirmed": {"type": "boolean"},
+    "bounty_amount": {"type": ["number", "null"], "description": "USD. Null when not disclosed."},
+    "bounty_rationale": {"type": ["string", "null"]},
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "filename": {"type": "string"},
+          "mime_type": {"type": "string"},
+          "size_bytes": {"type": "integer"},
+          "url": {"type": "string", "format": "uri", "description": "Original attachment URL on issues.chromium.org. Not re-hosted."},
+          "local_path": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "update_count": {"type": "integer"},
+    "description_snippet": {"type": ["string", "null"], "description": "First ~500 chars of the initial bug description. Full description is in report.md."}
+  }
+}

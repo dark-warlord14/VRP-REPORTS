@@ -1,0 +1,38 @@
+name: Deploy VRP Reports
+
+on:
+  workflow_dispatch:          # manual trigger only
+  push:
+    branches: [main]          # redeploy on code/UI changes
+    paths:
+      - 'ui/**'
+      - 'build.sh'
+      - '.github/workflows/scrape.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Checkout data branch into data/
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          path: data
+          fetch-depth: 1
+
+      - name: Build static dist/
+        run: bash build.sh
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=vrp-reports --commit-dirty=true

@@ -210,7 +210,7 @@ const App = {
                     </thead>
                     <tbody>
                         ${pageData.length === 0
-                            ? '<tr><td colspan="6" style="text-align:center;color:var(--pico-muted-color)">No reports match your filters.</td></tr>'
+                            ? '<tr><td colspan="6" style="text-align:center;padding:3rem 0;color:var(--fg-muted);font-family:var(--mono);letter-spacing:.08em;">No reports match your filters.</td></tr>'
                             : ''}
                         ${pageData.map(r => `
                             <tr onclick="location.hash='#/report/${r.id}'"
@@ -564,11 +564,26 @@ const App = {
         this.chartInstances = {};
 
         const isDark = document.documentElement.dataset.theme === 'dark';
-        const textColor = isDark ? '#ccc' : '#333';
-        const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+        const textColor = isDark ? '#a1a1a1' : '#525252';
+        const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
 
         Chart.defaults.color = textColor;
         Chart.defaults.borderColor = gridColor;
+        Chart.defaults.font.family = "'Geist', -apple-system, sans-serif";
+        Chart.defaults.font.size = 11;
+
+        // v0-style: primary bars near-monochrome, categorical uses distinct hues.
+        const barColor = isDark ? '#ededed' : '#0a0a0a';
+        const palette = {
+            primary: barColor,
+            red:     '#e5484d',
+            orange:  '#ff8a3d',
+            amber:   '#f1a10d',
+            blue:    '#3b82f6',
+            green:   '#30a46c',
+            violet:  '#8b5cf6',
+            gray:    isDark ? '#525252' : '#a3a3a3',
+        };
 
         if (s.by_year) {
             const years = Object.keys(s.by_year).sort();
@@ -579,7 +594,9 @@ const App = {
                     datasets: [{
                         label: 'Reports',
                         data: years.map(y => s.by_year[y].count),
-                        backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                        backgroundColor: palette.primary,
+                        borderRadius: 4,
+                        borderSkipped: false,
                     }]
                 },
                 options: {
@@ -601,7 +618,9 @@ const App = {
                     datasets: [{
                         label: 'Bounty ($)',
                         data: years.map(y => s.by_year[y].total_bounty),
-                        backgroundColor: 'rgba(255, 152, 0, 0.7)',
+                        backgroundColor: palette.primary,
+                        borderRadius: 4,
+                        borderSkipped: false,
                     }]
                 },
                 options: { responsive: true, plugins: { legend: { display: false } } },
@@ -611,12 +630,12 @@ const App = {
         if (s.by_severity) {
             const sevLabels = Object.keys(s.by_severity);
             const sevColors = sevLabels.map(l => {
-                if (l.includes('Critical')) return '#f44336';
-                if (l.includes('High'))     return '#ff5722';
-                if (l.includes('Medium'))   return '#ff9800';
-                if (l.includes('Low'))      return '#ffc107';
-                if (l.includes('Minimal'))  return '#8bc34a';
-                return '#9e9e9e';
+                if (l.includes('Critical')) return palette.red;
+                if (l.includes('High'))     return palette.orange;
+                if (l.includes('Medium'))   return palette.amber;
+                if (l.includes('Low'))      return palette.blue;
+                if (l.includes('Minimal'))  return palette.green;
+                return palette.gray;
             });
             this.chartInstances.severity = new Chart(document.getElementById('chartSeverity'), {
                 type: 'doughnut',
@@ -636,7 +655,9 @@ const App = {
                     datasets: [{
                         label: 'Count',
                         data: s.bounty_histogram.map(b => b.count),
-                        backgroundColor: 'rgba(33, 150, 243, 0.7)',
+                        backgroundColor: palette.primary,
+                        borderRadius: 4,
+                        borderSkipped: false,
                     }]
                 },
                 options: { responsive: true, plugins: { legend: { display: false } } },
@@ -652,7 +673,9 @@ const App = {
                     datasets: [{
                         label: 'Reports',
                         data: compLabels.map(c => s.by_component[c]),
-                        backgroundColor: 'rgba(156, 39, 176, 0.7)',
+                        backgroundColor: palette.primary,
+                        borderRadius: 4,
+                        borderSkipped: false,
                     }]
                 },
                 options: {
@@ -672,8 +695,8 @@ const App = {
                     datasets: [{
                         data: Object.values(s.by_status),
                         backgroundColor: [
-                            '#4caf50', '#2196f3', '#ff9800', '#f44336',
-                            '#9c27b0', '#607d8b', '#795548', '#009688',
+                            palette.primary, palette.blue, palette.green, palette.red,
+                            palette.orange, palette.amber, palette.violet, palette.gray,
                         ],
                     }]
                 },

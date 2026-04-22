@@ -2,6 +2,8 @@
 
 Scrapes and archives Chromium Vulnerability Reward Program (VRP) bug bounty reports from the [Chromium Issue Tracker](https://issues.chromium.org). Collects all bounty-awarded reports back to 2015, downloads all artifacts (PoC files, diffs, videos, screenshots), generates structured markdown, and provides a local dashboard for browsing everything offline.
 
+**Live site:** https://vrp-reports.pages.dev/ — editorial archive, agent-accessible via [`/skill.md`](https://vrp-reports.pages.dev/skill.md), [`/schema.json`](https://vrp-reports.pages.dev/schema.json), [`/llms.txt`](https://vrp-reports.pages.dev/llms.txt).
+
 ## Features
 
 - **Full history** — discovers all bounty-awarded reports from 2015 to present, year by year
@@ -29,24 +31,9 @@ vrp serve
 ## CLI Commands
 
 ```
-vrp discover [--year YEAR] [--no-resume] [--no-headless]
-    Phase 1: find issue IDs from search results.
-    --year YEAR      Discover for a single year instead of all years.
-    --no-resume      Ignore cached checkpoints, re-discover from scratch.
-    --no-headless    Show the browser window (useful for debugging auth).
-
-vrp scrape [--id ID] [--force] [--no-headless]
-    Phase 2: scrape issues and download artifacts.
-    --id ID          Scrape a single issue by ID.
-    --force          Re-scrape even if report.json already exists.
-    --no-headless    Show the browser window.
-
-vrp reprocess        Re-parse existing raw JSON (no re-scraping).
-vrp markdown         Generate/regenerate all report.md files.
-vrp index            Rebuild index.json + stats.json.
-vrp serve [--port N] Start the dashboard (default port: 8080).
 vrp run [--no-headless]  Full pipeline: discover → scrape → reprocess → markdown → index.
-vrp status           Show current counts and per-year discovery progress.
+vrp serve [--port N]     Start the dashboard (default port: 8080).
+vrp status               Show current counts and per-year discovery progress.
 ```
 
 ## Workflow
@@ -54,22 +41,15 @@ vrp status           Show current counts and per-year discovery progress.
 ### First-time full collection (2015–present)
 
 ```bash
-vrp run --no-headless   # or split into steps:
-vrp discover            # finds all issue IDs by year (checkpointed)
-vrp scrape              # extracts data + downloads attachments
-vrp reprocess           # enrich from existing raw JSON (fast, offline)
-vrp markdown            # generate report.md for all issues
-vrp index               # rebuild index + stats
-vrp serve               # browse the results
+vrp run             # full pipeline (checkpointed — safe to re-run)
+vrp serve           # browse the results at http://localhost:8080
 ```
 
 ### Adding new reports
 
 ```bash
-vrp discover --year 2026   # discover this year's new issues
-vrp scrape                 # scrape only pending (skips already done)
-vrp markdown               # generate new markdown files
-vrp index                  # update index and stats
+vrp run             # discovers and scrapes new issues, skips already-done ones
+vrp serve           # updated dashboard
 ```
 
 ## Data Structure
@@ -145,8 +125,11 @@ vrp/
 └── utils.py         Logging, file I/O, download helpers
 
 ui/
-├── index.html       SPA shell
-├── css/             PicoCSS (vendored) + custom styles
+├── index.html       SPA shell (Fraunces + JetBrains Mono from Google Fonts)
+├── css/app.css      Editorial design system — tokens, dark/light themes
+├── skill.md         Agent usage guide (exposed at /skill.md)
+├── schema.json      JSON Schema for report.json (exposed at /schema.json)
+├── llms.txt         Site manifest for LLM discoverability (exposed at /llms.txt)
 └── js/
     ├── app.js       Router, list/report/stats views
     ├── components.js Reusable UI components
@@ -181,11 +164,15 @@ All tests run offline — no Playwright install or scraped data required.
 
 1. Fork and create a branch
 2. `make lint` and `make test` must pass
-3. Open a PR against `master`
+3. Open a PR against `main`
 
 ## Deployment
 
-The GitHub Actions workflow in `.github/workflows/scrape.yml` runs daily at 6 AM UTC:
-- Scraped data lives on the `data` branch (separate from `master` code branch)
-- `build.sh` assembles a static `dist/` (UI + report.json/report.md, no attachments) for Cloudflare Pages
-- Set `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in repository secrets to enable deployment
+Deploys to Cloudflare Pages via `.github/workflows/deploy.yml` (manual dispatch or push to `main` touching `ui/**` or `build.sh`). Two-branch layout:
+
+- `main` — source code + UI
+- `data` — scraped output (`index.json`, `stats.json`, per-issue `report.json`/`report.md`)
+
+`build.sh` checks out both branches, assembles `dist/`, and `wrangler pages deploy` publishes it. Scraping runs locally (CI scraping is blocked by bot detection on Azure IPs) — push the lightweight files to the `data` branch, then trigger the deploy workflow.
+
+See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the full flow, secrets setup, and token rotation.

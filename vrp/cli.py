@@ -22,63 +22,6 @@ def cli():
 
 
 @cli.command()
-@click.option("--year", type=int, help="Discover for a specific year only")
-@click.option("--no-resume", is_flag=True, help="Re-run discovery even for cached years")
-@click.option("--no-headless", is_flag=True, help="Show browser window")
-def discover(year, no_resume, no_headless):
-    """Phase 1: Discover issue IDs from search results."""
-    from vrp.discovery import discover_all
-
-    years = [year] if year else None
-    result = asyncio.run(
-        discover_all(years=years, resume=not no_resume, headless=not no_headless)
-    )
-    console.print(f"[green]Discovery complete: {len(result)} total IDs in queue[/green]")
-
-
-@cli.command()
-@click.option("--id", "issue_id", help="Scrape a single issue by ID")
-@click.option("--force", is_flag=True, help="Re-scrape even if already processed")
-@click.option("--no-headless", is_flag=True, help="Show browser window")
-def scrape(issue_id, force, no_headless):
-    """Phase 2: Extract data from discovered issues."""
-    from vrp.extractor import scrape_all
-
-    ids = [issue_id] if issue_id else None
-    count = asyncio.run(scrape_all(issue_ids=ids, force=force, headless=not no_headless))
-    console.print(f"[green]Scraping complete: {count} bounty reports found[/green]")
-
-
-@cli.command()
-def reprocess():
-    """Re-parse existing raw JSON into enriched report.json (no re-scraping)."""
-    from vrp.extractor import reprocess_existing
-
-    count = reprocess_existing()
-    console.print(f"[green]Reprocessed {count} reports[/green]")
-
-
-@cli.command()
-@click.option("--force", is_flag=True, help="Regenerate all markdown even if already up-to-date")
-def markdown(force):
-    """Generate/regenerate markdown for all reports."""
-    from vrp.markdown_gen import generate_all_markdown
-
-    count = generate_all_markdown(force=force)
-    console.print(f"[green]Generated {count} markdown files[/green]")
-
-
-@cli.command()
-def index():
-    """Rebuild index.json and stats.json."""
-    from vrp.index_builder import build_stats, rebuild_index
-
-    count = rebuild_index()
-    stats = build_stats()
-    console.print(f"[green]Index: {count} reports | Total bounty: ${stats.get('total_bounty', 0):,.2f}[/green]")
-
-
-@cli.command()
 @click.option("--port", default=8080, help="Port to serve on")
 def serve(port):
     """Start the dashboard HTTP server."""

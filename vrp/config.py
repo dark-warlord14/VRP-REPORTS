@@ -9,6 +9,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 ISSUES_DIR = DATA_DIR / "issues"
+CORPUS_DIR = DATA_DIR / "corpus" / "js"
 INDEX_FILE = DATA_DIR / "index.json"
 STATS_FILE = DATA_DIR / "stats.json"
 QUEUE_FILE = DATA_DIR / "discovery_queue.json"

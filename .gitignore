@@ -53,3 +53,17 @@ Thumbs.db
 
 # Logs
 *.log
+
+# LLVM coverage profiles
+*.profraw
+*.profdata
+
+# Ruff cache
+.ruff_cache/
+
+# Local data backups and private research
+data_bak/
+review/
+
+# Internal AI tooling specs
+docs/superpowers/

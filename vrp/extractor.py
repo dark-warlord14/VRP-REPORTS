@@ -15,6 +15,7 @@ from vrp.config import (
     BOUNTY_INDICATORS,
     BROWSER_RESTART_INTERVAL,
     CONCURRENCY_LIMIT,
+    CORPUS_DIR,
     DELAY_BETWEEN_ISSUES,
     HEADLESS,
     ISSUES_DIR,
@@ -22,6 +23,7 @@ from vrp.config import (
     TIMEOUT,
     USER_AGENT,
 )
+from vrp.corpus import write_issue_corpus
 from vrp.parser import build_issue
 from vrp.utils import create_progress, download_file, load_json, logger, sanitize_filename, save_json
 
@@ -138,6 +140,7 @@ async def scrape_issue(
 
         # Save enriched report
         save_json(idir / "report.json", issue.model_dump())
+        write_issue_corpus(issue, idir, CORPUS_DIR)
 
         return True
 
@@ -268,6 +271,7 @@ def reprocess_existing() -> int:
                             att.local_path = None
 
                 save_json(idir / "report.json", issue.model_dump())
+                write_issue_corpus(issue, idir, CORPUS_DIR)
                 count += 1
 
             progress.update(task, advance=1)

@@ -13,18 +13,17 @@ pip install -e ".[dev]" && playwright install chromium
 make test          # run all tests
 make lint          # ruff linter
 make format        # ruff formatter
-make serve         # start dashboard at http://localhost:8080
-make build         # build static dist/ for Cloudflare Pages
+vrp run            # run full pipeline (discover → scrape → reprocess → markdown → index)
+vrp serve          # start dashboard at http://localhost:8080
+vrp status         # show current project state
 ```
 
-## Pipeline stages
-1. `vrp discover` — finds issue IDs from Chromium Issue Tracker (year-by-year, checkpointed)
-2. `vrp scrape` — scrapes each issue with Playwright, downloads attachments
-3. `vrp reprocess` — re-parses raw JSON without re-scraping (offline)
-4. `vrp markdown` — generates report.md for each issue
-5. `vrp index` — builds index.json + stats.json
-6. `vrp serve` — serves the SPA dashboard
-7. `vrp run` — runs all stages end-to-end
+## Pipeline stages (internal, all run via `vrp run`)
+1. discover — finds issue IDs from Chromium Issue Tracker (year-by-year, checkpointed)
+2. scrape — scrapes each issue with Playwright, downloads attachments
+3. reprocess — re-parses raw JSON without re-scraping (offline)
+4. markdown — generates report.md for each issue
+5. index — builds index.json + stats.json
 
 ## Key directories
 - `vrp/` — Python package (source)

@@ -32,8 +32,9 @@ vrp serve
 
 ```
 vrp run [--no-headless]  Full pipeline: discover → scrape → reprocess → markdown → index.
-vrp serve [--port N]     Start the dashboard (default port: 8080).
-vrp status               Show current counts and per-year discovery progress.
+                         Checkpointed — safe to interrupt and re-run.
+vrp serve [--port N]     Start the local dashboard (default: http://localhost:8080).
+vrp status               Show counts and per-year discovery progress.
 ```
 
 ## Workflow
@@ -41,15 +42,15 @@ vrp status               Show current counts and per-year discovery progress.
 ### First-time full collection (2015–present)
 
 ```bash
-vrp run             # full pipeline (checkpointed — safe to re-run)
-vrp serve           # browse the results at http://localhost:8080
+vrp run             # full pipeline — checkpointed, safe to re-run
+vrp serve           # browse at http://localhost:8080
 ```
 
 ### Adding new reports
 
 ```bash
-vrp run             # discovers and scrapes new issues, skips already-done ones
-vrp serve           # updated dashboard
+vrp run             # discovers + scrapes new issues, skips already-done
+vrp serve           # refreshed dashboard
 ```
 
 ## Data Structure
@@ -113,15 +114,16 @@ http://localhost:8080/#/stats       Statistics (charts by year, severity, bounty
 
 ```
 vrp/
-├── config.py        Configuration, enums, year-based URL builder
+├── config.py        Configuration, paths, enums, year-based URL builder
 ├── models.py        Pydantic models: Issue, Update, Attachment, IndexEntry
 ├── parser.py        Structured parsing of Chromium Issue Tracker API responses
 ├── discovery.py     Year-by-year issue ID discovery via Playwright
 ├── extractor.py     Per-issue data extraction + artifact downloads
+├── corpus.py        JS corpus extraction from PoC attachments (for fuzzers)
 ├── markdown_gen.py  Markdown report generation
 ├── index_builder.py Build index.json and stats.json
-├── cli.py           Click CLI entry point
-├── server.py        HTTP server for dashboard
+├── cli.py           Click CLI (vrp run / vrp serve / vrp status)
+├── server.py        HTTP server for local dashboard
 └── utils.py         Logging, file I/O, download helpers
 
 ui/

@@ -1,4 +1,4 @@
-.PHONY: install test lint format serve build clean
+.PHONY: install test lint format clean
 
 install:
 	pip install -e ".[dev]" && playwright install chromium
@@ -11,12 +11,6 @@ lint:
 
 format:
 	ruff format vrp/ tests/
-
-serve:
-	vrp serve
-
-build:
-	bash build.sh
 
 clean:
 	rm -rf dist/ .pytest_cache __pycache__ vrp_reports.egg-info

@@ -1,0 +1,41 @@
+{
+  "id": "476898368",
+  "url": "https://issues.chromium.org/issues/476898368",
+  "title": "Privileged `chrome://` navigation via reload-triggered server redirect in iOS Chrome",
+  "status": "Assigned",
+  "severity": "S3-Low",
+  "priority": "P2",
+  "component": "UI>Browser>Navigation",
+  "os_platforms": [
+    "iOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "po...@gmail.com",
+  "assignee": "ol...@google.com",
+  "created_date": "2026-01-19T06:42:29+00:00",
+  "modified_date": "2026-05-02T07:52:51+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 1000.0,
+  "bounty_rationale": "Baseline // Lower Impact Exploitation mitigation bypass",
+  "attachments": [
+    {
+      "id": 72614354,
+      "filename": "reload_redirect.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 10142738,
+      "url": "https://issues.chromium.org/action/issues/476898368/attachments/72614354?download=true",
+      "local_path": null
+    },
+    {
+      "id": 72614355,
+      "filename": "reload_redirect.zip",
+      "mime_type": "application/x-zip-compressed",
+      "size_bytes": 2349,
+      "url": "https://issues.chromium.org/action/issues/476898368/attachments/72614355?download=true",
+      "local_path": "attachments/reload_redirect.zip"
+    }
+  ],
+  "update_count": 37,
+  "description_snippet": "---\n\n### Report description\n\n\nPrivileged `chrome://` navigation via reload-triggered server redirect in iOS Chrome\n\n\n---\n\n### Bug location\n\n\n#### Where do you want to report your vulnerability?\n\nChrome VRP – Report security issues affecting the Chrome browser. [See program rules](https://bughunters."
+}

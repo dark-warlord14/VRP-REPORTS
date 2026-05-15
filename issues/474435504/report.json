@@ -1,0 +1,53 @@
+{
+  "id": "474435504",
+  "url": "https://issues.chromium.org/issues/474435504",
+  "title": "Leaking size of cross-origin resources via rangeless opaque responses using Service Workers and the Fetch API",
+  "status": "Assigned",
+  "severity": "S3-Low",
+  "priority": "P1",
+  "component": "Blink>Network>FetchAPI",
+  "os_platforms": [
+    "Android",
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "he...@gmail.com",
+  "assignee": "yy...@chromium.org",
+  "created_date": "2026-01-09T05:01:30+00:00",
+  "modified_date": "2026-04-30T08:03:11+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 3000.0,
+  "bounty_rationale": "Baseline / Lower Impact user information disclosure plus a bisect bonus",
+  "attachments": [
+    {
+      "id": 72338565,
+      "filename": "index.html",
+      "mime_type": "text/html",
+      "size_bytes": 3172,
+      "url": "https://issues.chromium.org/action/issues/474435504/attachments/72338565?download=true",
+      "local_path": "attachments/index.html"
+    },
+    {
+      "id": 72338566,
+      "filename": "sw.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 755,
+      "url": "https://issues.chromium.org/action/issues/474435504/attachments/72338566?download=true",
+      "local_path": "attachments/sw.js"
+    },
+    {
+      "id": 72338567,
+      "filename": "repro.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 5558753,
+      "url": "https://issues.chromium.org/action/issues/474435504/attachments/72338567?download=true",
+      "local_path": "attachments/repro.mp4"
+    }
+  ],
+  "update_count": 98,
+  "description_snippet": "#### VULNERABILITY DETAILS\n\nWhen a cross-origin resource is used in an audio/video tag, a request containing the Range header asking for `bytes=0-` is issued. If the request is intercepted using a Service Worker and we respond with an arbitrary Content-Range header, e.g:\n```js\ne.respondWith(new Resp"
+}

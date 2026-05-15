@@ -1,0 +1,60 @@
+{
+  "id": "474670215",
+  "url": "https://issues.chromium.org/issues/474670215",
+  "title": "Bypass for console.log %c formatter url filter",
+  "status": "Assigned",
+  "severity": "S3-Low",
+  "priority": "P3",
+  "component": "Platform>DevTools>Console",
+  "os_platforms": [
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "re...@gmail.com",
+  "assignee": "pf...@google.com",
+  "created_date": "2026-01-10T13:26:48+00:00",
+  "modified_date": "2026-05-06T08:01:28+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 1000.0,
+  "bounty_rationale": "Low impact user information disclosure plus a patch bonus",
+  "attachments": [
+    {
+      "id": 72360842,
+      "filename": "chrome_2026-01-10_15-16-19.png",
+      "mime_type": "image/png",
+      "size_bytes": 3598,
+      "url": "https://issues.chromium.org/action/issues/474670215/attachments/72360842?download=true",
+      "local_path": "attachments/chrome_2026-01-10_15-16-19.png"
+    },
+    {
+      "id": 72360845,
+      "filename": "0001-console-improve-url-regex.patch",
+      "mime_type": "text/x-diff",
+      "size_bytes": 2207,
+      "url": "https://issues.chromium.org/action/issues/474670215/attachments/72360845?download=true",
+      "local_path": "attachments/0001-console-improve-url-regex.patch"
+    },
+    {
+      "id": 72412941,
+      "filename": "index.html",
+      "mime_type": "text/html",
+      "size_bytes": 134,
+      "url": "https://issues.chromium.org/action/issues/474670215/attachments/72412941?download=true",
+      "local_path": "attachments/index.html"
+    },
+    {
+      "id": 72368490,
+      "filename": "chrome_2026-01-12_20-59-10.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 237988,
+      "url": "https://issues.chromium.org/action/issues/474670215/attachments/72368490?download=true",
+      "local_path": "attachments/chrome_2026-01-12_20-59-10.mp4"
+    }
+  ],
+  "update_count": 64,
+  "description_snippet": "**VULNERABILITY DETAILS**  \nThe mitigations for Issue 40056332 and Issue 40060475 can be bypassed by using specific CSS syntax to load an external url. This leads to minor data exfil in DevTools (ip/ua/headers, whether the console was opened, css media queries etc).\n\nThe vulnerable regex is at: http"
+}

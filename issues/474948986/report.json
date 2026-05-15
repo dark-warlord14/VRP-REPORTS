@@ -1,0 +1,68 @@
+{
+  "id": "474948986",
+  "url": "https://issues.chromium.org/issues/474948986",
+  "title": "Chrome Windows - PIP Window Displays Incorrect Origin When Domain Uses RTL Characters",
+  "status": "Assigned",
+  "severity": "S3-Low",
+  "priority": "P2",
+  "component": "Blink>Media>PictureInPicture",
+  "os_platforms": [
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "se...@gmail.com",
+  "assignee": "bk...@google.com",
+  "created_date": "2026-01-11T14:25:17+00:00",
+  "modified_date": "2026-05-01T07:55:07+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 3000.0,
+  "bounty_rationale": "Sec UI spoof, medium impact",
+  "attachments": [
+    {
+      "id": 72384711,
+      "filename": "Chrome PIP origin Spoof.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 6387621,
+      "url": "https://issues.chromium.org/action/issues/474948986/attachments/72384711?download=true",
+      "local_path": "attachments/Chrome PIP origin Spoof.mp4"
+    },
+    {
+      "id": 72449938,
+      "filename": "Chrome POC.mov",
+      "mime_type": "video/quicktime",
+      "size_bytes": 8972596,
+      "url": "https://issues.chromium.org/action/issues/474948986/attachments/72449938?download=true",
+      "local_path": null
+    },
+    {
+      "id": 72509285,
+      "filename": "Chrome Document PIP Spoof.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 5634301,
+      "url": "https://issues.chromium.org/action/issues/474948986/attachments/72509285?download=true",
+      "local_path": null
+    },
+    {
+      "id": 73123062,
+      "filename": "test.html",
+      "mime_type": "text/html",
+      "size_bytes": 11332,
+      "url": "https://issues.chromium.org/action/issues/474948986/attachments/73123062?download=true",
+      "local_path": "attachments/test.html"
+    },
+    {
+      "id": 73119738,
+      "filename": "pip-doc.html",
+      "mime_type": "text/html",
+      "size_bytes": 1679,
+      "url": "https://issues.chromium.org/action/issues/474948986/attachments/73119738?download=true",
+      "local_path": "attachments/pip-doc.html"
+    }
+  ],
+  "update_count": 42,
+  "description_snippet": "---\n\n### Report description\n\n\nChrome Windows - PIP Window Displays Incorrect Origin When Domain Uses RTL Characters\n\n\n---\n\n### Bug location\n\n\n#### Where do you want to report your vulnerability?\n\nChrome VRP – Report security issues affecting the Chrome browser. [See program rules](https://bughunters"
+}

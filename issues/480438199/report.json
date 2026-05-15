@@ -1,0 +1,46 @@
+{
+  "id": "480438199",
+  "url": "https://issues.chromium.org/issues/480438199",
+  "title": "Improper handling of side-effects of CopyFastSmiOrObjectElements in LateLoadElimination leads to a fake object / arbitrary write primitive",
+  "status": "Assigned",
+  "severity": "S4-Minimal",
+  "priority": "P1",
+  "component": "Blink>JavaScript>Compiler>Maglev",
+  "os_platforms": [
+    "Android",
+    "Fuchsia",
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "bj...@neodyme.io",
+  "assignee": "ni...@chromium.org",
+  "created_date": "2026-02-01T07:59:56+00:00",
+  "modified_date": "2026-05-13T07:58:00+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 11000.0,
+  "bounty_rationale": "High-quality report of demonstrated memory corruption in a sandboxed process plus a bisect bonus",
+  "attachments": [
+    {
+      "id": 73016499,
+      "filename": "poc.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 3040,
+      "url": "https://issues.chromium.org/action/issues/480438199/attachments/73016499?download=true",
+      "local_path": "attachments/poc.js"
+    },
+    {
+      "id": 73137526,
+      "filename": "poc.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 3244,
+      "url": "https://issues.chromium.org/action/issues/480438199/attachments/73137526?download=true",
+      "local_path": "attachments/poc.js"
+    }
+  ],
+  "update_count": 72,
+  "description_snippet": "VULNERABILITY DETAILS\n\n# Late Load Elimination\n\nInside the TurboShaft Late Load Elimination Phase, the `LateLoadEliminationAnalyzer` does not handle `Call` nodes carefully enough.\nThe `CopyFastSmiOrObjectElements` Builtin is handled as a special case, leading to no invalidation of memory loads apart"
+}

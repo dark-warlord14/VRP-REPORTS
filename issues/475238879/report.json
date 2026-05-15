@@ -1,0 +1,36 @@
+{
+  "id": "475238879",
+  "url": "https://issues.chromium.org/issues/475238879",
+  "title": "PIP Origin Attribution Missing When Triggered from `about:blank` via Injected JavaScript",
+  "status": "Accepted",
+  "severity": "S3-Low",
+  "priority": "P3",
+  "component": "Blink>Media>PictureInPicture",
+  "os_platforms": [
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "se...@gmail.com",
+  "assignee": "bk...@google.com",
+  "created_date": "2026-01-12T18:33:56+00:00",
+  "modified_date": "2026-05-06T08:01:24+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 0.0,
+  "bounty_rationale": "A reasonable and prudent user would not suffer any security implications from this issue\n\n\nNote that the fact that this issue is not being rewarded does not mean\nthat the product team won't fix the issue. We have filed a bug with the product\nteam and they will review your report and decide if a fix is required. We'll\nlet you know if the issue was fixed.\n\nRegards, \\\nGoogle Security Bot\n\n*How did we do? Please fill out a [short anonymous survey](https://goo.gl/IR3KRH).*",
+  "attachments": [
+    {
+      "id": 72419493,
+      "filename": "emptytest.html",
+      "mime_type": "text/html",
+      "size_bytes": 7988,
+      "url": "https://issues.chromium.org/action/issues/475238879/attachments/72419493?download=true",
+      "local_path": "attachments/emptytest.html"
+    }
+  ],
+  "update_count": 43,
+  "description_snippet": "---\n\n### Report description\n\n\nPIP Origin Attribution Missing When Triggered from `about:blank` via Injected JavaScript\n\n\n---\n\n### Bug location\n\n\n#### Where do you want to report your vulnerability?\n\nChrome VRP – Report security issues affecting the Chrome browser. [See program rules](https://bughunt"
+}

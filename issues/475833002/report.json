@@ -1,0 +1,38 @@
+{
+  "id": "475833002",
+  "url": "https://issues.chromium.org/issues/475833002",
+  "title": "V8 RISC-V: Drumbrake CWasmEntry uses wrong root register",
+  "status": "Verified",
+  "severity": "S3-Low",
+  "priority": "P1",
+  "component": "Blink>JavaScript",
+  "os_platforms": [
+    "Android",
+    "Fuchsia",
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "ru...@pwno.io",
+  "assignee": "ya...@iscas.ac.cn",
+  "created_date": "2026-01-14T17:44:53+00:00",
+  "modified_date": "2026-05-07T08:00:16+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 0.0,
+  "bounty_rationale": "This is not shipped with Chrome\n\n\nNote that the fact that this issue is not being rewarded does not mean\nthat the product team won't fix the issue. We have filed a bug with the product\nteam and they will review your report and decide if a fix is required. We'll\nlet you know if the issue was fixed.\n\nRegards, \\\nGoogle Security Bot\n\n*How did we do? Please fill out a [short anonymous survey](https://goo.gl/IR3KRH).*",
+  "attachments": [
+    {
+      "id": 72469155,
+      "filename": "poc.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 483,
+      "url": "https://issues.chromium.org/action/issues/475833002/attachments/72469155?download=true",
+      "local_path": "attachments/poc.js"
+    }
+  ],
+  "update_count": 39,
+  "description_snippet": "VULNERABILITY DETAILS\n\nCWasmEntry builtin initializes `kRootRegister` from the wrong C argument (`a0`), but the isolate root is passed as the 3rd argument (`a2`). This misinitialization makes isolate-field accesses and root-relative loads/stores interpret a heap object pointer as the isolate root, w"
+}

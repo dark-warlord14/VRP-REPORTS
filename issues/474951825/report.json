@@ -1,0 +1,29 @@
+{
+  "id": "474951825",
+  "url": "https://issues.chromium.org/issues/474951825",
+  "title": " V8 perf profiling follows symlinks and overwrites arbitrary files (perf-<pid>.map/jit-<pid>.dump) using 0666 open without O_NOFOLLOW",
+  "status": "Verified",
+  "severity": "S3-Low",
+  "priority": "P3",
+  "component": "Blink>JavaScript",
+  "os_platforms": [
+    "Android",
+    "Fuchsia",
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "na...@gmail.com",
+  "assignee": "cl...@chromium.org",
+  "created_date": "2026-01-11T14:46:27+00:00",
+  "modified_date": "2026-05-06T08:01:23+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 0.0,
+  "bounty_rationale": "Does not impact a shipping version of google chrome\n\n\nNote that the fact that this issue is not being rewarded does not mean\nthat the product team won't fix the issue. We have filed a bug with the product\nteam and they will review your report and decide if a fix is required. We'll\nlet you know if the issue was fixed.\n\nRegards, \\\nGoogle Security Bot\n\n*How did we do? Please fill out a [short anonymous survey](https://goo.gl/IR3KRH).*",
+  "attachments": [],
+  "update_count": 37,
+  "description_snippet": "---\n\n### Report description\n\n\n V8 perf profiling follows symlinks and overwrites arbitrary files (perf-<pid>.map/jit-<pid>.dump) using 0666 open without O_NOFOLLOW\n\n\n---\n\n### Bug location\n\n\n#### Where do you want to report your vulnerability?\n\nChrome VRP – Report security issues affecting the Chrome"
+}

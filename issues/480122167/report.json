@@ -1,0 +1,46 @@
+{
+  "id": "480122167",
+  "url": "https://issues.chromium.org/issues/480122167",
+  "title": "V8 Sandbox Bypass: UAF in Temporal.PlainDate.prototype.with",
+  "status": "Assigned",
+  "severity": "S4-Minimal",
+  "priority": "P2",
+  "component": "Blink>JavaScript>Sandbox",
+  "os_platforms": [
+    "Android",
+    "Fuchsia",
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "er...@gmail.com",
+  "assignee": "ma...@google.com",
+  "created_date": "2026-01-31T14:01:20+00:00",
+  "modified_date": "2026-05-14T07:56:44+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 5000.0,
+  "bounty_rationale": "Memory corruption outside the V8 sandbox without demonstration of controlled write",
+  "attachments": [
+    {
+      "id": 73004035,
+      "filename": "x.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 1569,
+      "url": "https://issues.chromium.org/action/issues/480122167/attachments/73004035?download=true",
+      "local_path": "attachments/x.js"
+    },
+    {
+      "id": 73004044,
+      "filename": "since.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 955,
+      "url": "https://issues.chromium.org/action/issues/480122167/attachments/73004044?download=true",
+      "local_path": "attachments/since.js"
+    }
+  ],
+  "update_count": 90,
+  "description_snippet": "VULNERABILITY DETAILS\n\nA Use-After-Free vulnerability exists in the implementation of Temporal.PlainDate.prototype.with (and potentially other methods sharing the GenericWith or GenericDifferenceTemporal helpers) in V8.\n\nThe issue arises from unsafe ordering of operations in src/objects/js-temporal-"
+}

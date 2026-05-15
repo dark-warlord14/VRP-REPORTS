@@ -1,0 +1,45 @@
+{
+  "id": "475613896",
+  "url": "https://issues.chromium.org/issues/475613896",
+  "title": "use-after-poison on address  thread T0",
+  "status": "Assigned",
+  "severity": "S4-Minimal",
+  "priority": "P1",
+  "component": "Speed>Tracing",
+  "os_platforms": [
+    "Android",
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "mu...@gmail.com",
+  "assignee": "et...@chromium.org",
+  "created_date": "2026-01-13T22:52:21+00:00",
+  "modified_date": "2026-05-01T07:55:16+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 2000.0,
+  "bounty_rationale": "Moderately mitigated memory corruption in a sandboxed process",
+  "attachments": [
+    {
+      "id": 72474537,
+      "filename": "2026-01-14 05-47-59.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 13550839,
+      "url": "https://issues.chromium.org/action/issues/475613896/attachments/72474537?download=true",
+      "local_path": null
+    },
+    {
+      "id": 72474538,
+      "filename": "testing.html",
+      "mime_type": "text/html",
+      "size_bytes": 11223,
+      "url": "https://issues.chromium.org/action/issues/475613896/attachments/72474538?download=true",
+      "local_path": "attachments/testing.html"
+    }
+  ],
+  "update_count": 74,
+  "description_snippet": "---\n\n### Report description\n\n\nuse-after-poison on address  thread T0\n\n\n---\n\n### Bug location\n\n\n#### Where do you want to report your vulnerability?\n\nChrome VRP – Report security issues affecting the Chrome browser. [See program rules](https://bughunters.google.com/about/rules/5745167867576320/chrome"
+}

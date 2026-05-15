@@ -1,0 +1,65 @@
+{
+  "id": "473118648",
+  "url": "https://issues.chromium.org/issues/473118648",
+  "title": "Download origin spoofing using hostname in data uri.",
+  "status": "Accepted",
+  "severity": "S3-Low",
+  "priority": "P3",
+  "component": "UI>Browser>Downloads",
+  "os_platforms": [
+    "Android"
+  ],
+  "chrome_version": "143.0.7499.146",
+  "cve_ids": [],
+  "reporter": "x4...@gmail.com",
+  "assignee": "ch...@chromium.org",
+  "created_date": "2026-01-03T12:33:29+00:00",
+  "modified_date": "2026-04-29T07:53:57+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 3000.0,
+  "bounty_rationale": "Security UI spoofing baseline / lower impact",
+  "attachments": [
+    {
+      "id": 72199303,
+      "filename": "POC 2026-01-03 at 17.59.56.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 3770220,
+      "url": "https://issues.chromium.org/action/issues/473118648/attachments/72199303?download=true",
+      "local_path": "attachments/POC 2026-01-03 at 17.59.56.mp4"
+    },
+    {
+      "id": 72220866,
+      "filename": "WhatsApp Image 2026-01-05 at 21.43.45.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 68275,
+      "url": "https://issues.chromium.org/action/issues/473118648/attachments/72220866?download=true",
+      "local_path": "attachments/WhatsApp Image 2026-01-05 at 21.43.45.jpeg"
+    },
+    {
+      "id": 72403509,
+      "filename": "Mon Jan 12 2026 22:28:00 GMT+0530 (India Standard Time).png",
+      "mime_type": "image/png",
+      "size_bytes": 65406,
+      "url": "https://issues.chromium.org/action/issues/473118648/attachments/72403509?download=true",
+      "local_path": "attachments/Mon Jan 12 2026 22_28_00 GMT+0530 (India Standard Time).png"
+    },
+    {
+      "id": 72403511,
+      "filename": "WhatsApp Image 2026-01-12 at 23.19.27.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 64061,
+      "url": "https://issues.chromium.org/action/issues/473118648/attachments/72403511?download=true",
+      "local_path": "attachments/WhatsApp Image 2026-01-12 at 23.19.27.jpeg"
+    },
+    {
+      "id": 73253268,
+      "filename": "WhatsApp Image 2026-02-09 at 18.30.00.jpeg",
+      "mime_type": "image/jpeg",
+      "size_bytes": 55741,
+      "url": "https://issues.chromium.org/action/issues/473118648/attachments/73253268?download=true",
+      "local_path": "attachments/WhatsApp Image 2026-02-09 at 18.30.00.jpeg"
+    }
+  ],
+  "update_count": 55,
+  "description_snippet": "# Steps to reproduce the problem\n1. Host the code:\n```\n\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Download & Fullscreen on Keypress</title>\n</head>\n<body>\n  <center><h2>POC by Chigorin!</h2></center>\n  <input type=\"text\" id=\"triggerInput\">\n\n  <script>\n    document.get"
+}

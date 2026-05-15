@@ -1,7 +1,7 @@
 {
-  "total_reports": 1934,
-  "total_bounty": 13435789.0,
-  "avg_bounty": 6983.26,
+  "total_reports": 1954,
+  "total_bounty": 13518789.0,
+  "avg_bounty": 6954.11,
   "by_year": {
     "2015": {
       "count": 37,
@@ -46,48 +46,52 @@
     "2025": {
       "count": 238,
       "total_bounty": 2971500.0
+    },
+    "2026": {
+      "count": 20,
+      "total_bounty": 83000.0
     }
   },
   "by_severity": {
-    "S3-Low": 1730,
-    "S4-Minimal": 195,
+    "S3-Low": 1745,
+    "S4-Minimal": 200,
     "Unknown": 5,
     "S1-High": 4
   },
   "by_status": {
-    "Assigned": 1497,
-    "Accepted": 337,
-    "Fixed": 58,
+    "Assigned": 1510,
+    "Accepted": 341,
+    "Fixed": 59,
     "New": 28,
-    "Verified": 9,
+    "Verified": 11,
     "Unknown": 5
   },
   "by_component": {
-    "Blink": 852,
+    "Blink": 865,
     "Internals": 365,
-    "UI": 354,
-    "Platform": 139,
-    "Unknown": 124,
+    "UI": 357,
+    "Platform": 140,
+    "Unknown": 125,
     "Mobile": 29,
     "Dawn": 27,
     "Enterprise": 10,
     "OS": 7,
+    "Speed": 4,
     "IO": 4,
     "Services (Use Subcomponents)": 3,
-    "Speed": 3,
     "Privacy": 3,
+    "PDFium": 2,
     "Dawn, Dawn": 2,
     "Privacy, UI": 2,
     "Enterprise, Platform": 2,
     "Infra": 2,
-    "PDFium": 1,
     "Dawn, Internals": 1,
     "Issue Tracker, Platform": 1
   },
   "bounty_histogram": [
     {
       "range": "$0-500",
-      "count": 8
+      "count": 11
     },
     {
       "range": "$500-1K",
@@ -95,19 +99,19 @@
     },
     {
       "range": "$1K-3K",
-      "count": 496
+      "count": 501
     },
     {
       "range": "$3K-5K",
-      "count": 269
+      "count": 273
     },
     {
       "range": "$5K-10K",
-      "count": 595
+      "count": 600
     },
     {
       "range": "$10K-20K",
-      "count": 283
+      "count": 286
     },
     {
       "range": "$20K+",

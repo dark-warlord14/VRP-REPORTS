@@ -1,0 +1,22 @@
+{
+  "id": "472921872",
+  "url": "https://issues.chromium.org/issues/472921872",
+  "title": "[Critical] Unresolved Google Bugs Leak ",
+  "status": "Fixed",
+  "severity": "S3-Low",
+  "priority": "P3",
+  "component": "Unknown",
+  "os_platforms": [],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "am...@gmail.com",
+  "assignee": "dr...@chromium.org",
+  "created_date": "2026-01-02T03:56:02+00:00",
+  "modified_date": "2026-04-16T07:55:58+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 5000.0,
+  "bounty_rationale": "Limited information leak on a tier 0 site",
+  "attachments": [],
+  "update_count": 40,
+  "description_snippet": "**Summary:** [Critical] Unresolved Google Bugs Leak\n\n**Program:** Google VRP\n\n**Vulnerability type:** Other\n\n### Details\n\n**Vulnerability Description**\nIssue child (say 2) marked as duplicate of issue parent(say 1), parent issue 1 is still unresolved but after 14 weeks issue 2 became public with poc"
+}

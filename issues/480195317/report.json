@@ -1,0 +1,89 @@
+{
+  "id": "480195317",
+  "url": "https://issues.chromium.org/issues/480195317",
+  "title": "WebGPU: Heap Use-After-Free in GPUShaderModule via OnCompilationInfoCallback",
+  "status": "Assigned",
+  "severity": "S3-Low",
+  "priority": "P1",
+  "component": "Blink>WebGPU",
+  "os_platforms": [
+    "Windows"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "fa...@gmail.com",
+  "assignee": "lo...@google.com",
+  "created_date": "2026-01-31T03:11:49+00:00",
+  "modified_date": "2026-05-13T07:59:35+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 7000.0,
+  "bounty_rationale": "Baseline memory corruption in a sandboxed process",
+  "attachments": [
+    {
+      "id": 72998735,
+      "filename": "deleted",
+      "mime_type": "application/octet-stream",
+      "size_bytes": 0,
+      "url": "https://issues.chromium.org/action/issues/480195317/attachments/72998735?download=true",
+      "local_path": null
+    },
+    {
+      "id": 72985170,
+      "filename": "poc.html",
+      "mime_type": "text/html",
+      "size_bytes": 1221,
+      "url": "https://issues.chromium.org/action/issues/480195317/attachments/72985170?download=true",
+      "local_path": "attachments/poc.html"
+    },
+    {
+      "id": 72990767,
+      "filename": "full-asan.txt",
+      "mime_type": "text/plain",
+      "size_bytes": 79008,
+      "url": "https://issues.chromium.org/action/issues/480195317/attachments/72990767?download=true",
+      "local_path": "attachments/full-asan.txt"
+    },
+    {
+      "id": 73086217,
+      "filename": "screenrecord.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 817192,
+      "url": "https://issues.chromium.org/action/issues/480195317/attachments/73086217?download=true",
+      "local_path": "attachments/screenrecord.mp4"
+    },
+    {
+      "id": 73216898,
+      "filename": "deleted",
+      "mime_type": "application/octet-stream",
+      "size_bytes": 0,
+      "url": "https://issues.chromium.org/action/issues/480195317/attachments/73216898?download=true",
+      "local_path": null
+    },
+    {
+      "id": 73216899,
+      "filename": "poc.html",
+      "mime_type": "text/html",
+      "size_bytes": 454,
+      "url": "https://issues.chromium.org/action/issues/480195317/attachments/73216899?download=true",
+      "local_path": "attachments/poc.html"
+    },
+    {
+      "id": 73380970,
+      "filename": "Screen Recording.mov",
+      "mime_type": "video/quicktime",
+      "size_bytes": 30814573,
+      "url": "https://issues.chromium.org/action/issues/480195317/attachments/73380970?download=true",
+      "local_path": null
+    },
+    {
+      "id": 73380971,
+      "filename": "asan-log.txt",
+      "mime_type": "text/plain",
+      "size_bytes": 34705,
+      "url": "https://issues.chromium.org/action/issues/480195317/attachments/73380971?download=true",
+      "local_path": "attachments/asan-log.txt"
+    }
+  ],
+  "update_count": 74,
+  "description_snippet": "```bash\nSUMMARY: AddressSanitizer: heap-use-after-free C:\\b\\s\\w\\ir\\cache\\builder\\src\\third_party\\blink\\renderer\\modules\\webgpu\\gpu_shader_module.cc:114:18 in blink::GPUShaderModule::OnCompilationInfoCallback(class blink::ScriptPromiseResolver<class blink::GPUCompilationInfo> *, enum wgpu::Compilatio"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "479726070",
+  "url": "https://issues.chromium.org/issues/479726070",
+  "title": "Hole leak in MaglevGraphBuilder",
+  "status": "Assigned",
+  "severity": "S4-Minimal",
+  "priority": "P1",
+  "component": "Blink>JavaScript>Compiler>Maglev",
+  "os_platforms": [
+    "Android",
+    "Fuchsia",
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "ha...@gmail.com",
+  "assignee": "vi...@chromium.org",
+  "created_date": "2026-01-29T12:53:31+00:00",
+  "modified_date": "2026-05-09T07:54:04+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 10000.0,
+  "bounty_rationale": "High quality memory corruption in a sandboxed process",
+  "attachments": [
+    {
+      "id": 72919541,
+      "filename": "stack.txt",
+      "mime_type": "text/plain",
+      "size_bytes": 4011,
+      "url": "https://issues.chromium.org/action/issues/479726070/attachments/72919541?download=true",
+      "local_path": "attachments/stack.txt"
+    },
+    {
+      "id": 72919542,
+      "filename": "poc.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 158,
+      "url": "https://issues.chromium.org/action/issues/479726070/attachments/72919542?download=true",
+      "local_path": "attachments/poc.js"
+    },
+    {
+      "id": 72919543,
+      "filename": "fix.diff",
+      "mime_type": "text/x-diff",
+      "size_bytes": 379,
+      "url": "https://issues.chromium.org/action/issues/479726070/attachments/72919543?download=true",
+      "local_path": "attachments/fix.diff"
+    },
+    {
+      "id": 72919545,
+      "filename": "confusion_poc_a.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 72,
+      "url": "https://issues.chromium.org/action/issues/479726070/attachments/72919545?download=true",
+      "local_path": "attachments/confusion_poc_a.js"
+    },
+    {
+      "id": 72917186,
+      "filename": "confusion_poc_b.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 361,
+      "url": "https://issues.chromium.org/action/issues/479726070/attachments/72917186?download=true",
+      "local_path": "attachments/confusion_poc_b.js"
+    },
+    {
+      "id": 72919546,
+      "filename": "confusion_stack.txt",
+      "mime_type": "text/plain",
+      "size_bytes": 4173,
+      "url": "https://issues.chromium.org/action/issues/479726070/attachments/72919546?download=true",
+      "local_path": "attachments/confusion_stack.txt"
+    }
+  ],
+  "update_count": 83,
+  "description_snippet": "### VULNERABILITY DETAILS\n\n#### Summary\n\n[MaglevGraphBuilder::VisitThrowReferenceErrorIfHole](https://source.chromium.org/chromium/chromium/src/+/main:v8/src/maglev/maglev-graph-builder.cc;l=16443) incorrectly eliminates TDZ checks for module variables because [CanBeTheHoleValue](https://source.chro"
+}

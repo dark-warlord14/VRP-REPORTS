@@ -1,0 +1,38 @@
+{
+  "id": "478659010",
+  "url": "https://issues.chromium.org/issues/478659010",
+  "title": "RegExp.escape byteness mismatch OOB read ",
+  "status": "Assigned",
+  "severity": "S4-Minimal",
+  "priority": "P2",
+  "component": "Blink>JavaScript, Blink>JavaScript>Runtime",
+  "os_platforms": [
+    "Android",
+    "Fuchsia",
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "qy...@gmail.com",
+  "assignee": "pt...@chromium.org",
+  "created_date": "2026-01-26T03:38:31+00:00",
+  "modified_date": "2026-05-07T08:00:19+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 7000.0,
+  "bounty_rationale": "Baseline memory corruption in a sandboxed process",
+  "attachments": [
+    {
+      "id": 72810888,
+      "filename": "poc.js",
+      "mime_type": "text/javascript",
+      "size_bytes": 514,
+      "url": "https://issues.chromium.org/action/issues/478659010/attachments/72810888?download=true",
+      "local_path": "attachments/poc.js"
+    }
+  ],
+  "update_count": 53,
+  "description_snippet": "#VULNERABILITY DETAILS\nRegExp.escape determines whether to copy the input as one-byte or two-byte based on the string's map (String::IsOneByteRepresentation). A crafted SlicedString can keep a two-byte map while its underlying storage becomes one-byte after internalization/thinning, causing RegExp.e"
+}

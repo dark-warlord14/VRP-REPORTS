@@ -1,0 +1,60 @@
+{
+  "id": "474583539",
+  "url": "https://issues.chromium.org/issues/474583539",
+  "title": "Regression 440523110: User Activation Bypass via showOpenFilePicker and contextmenu delay",
+  "status": "Accepted",
+  "severity": "S3-Low",
+  "priority": "P3",
+  "component": "UI>Browser>TopChrome>TabStrip>SplitView",
+  "os_platforms": [
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": "143.0.7499.193",
+  "cve_ids": [],
+  "reporter": "az...@gmail.com",
+  "assignee": "ag...@google.com",
+  "created_date": "2026-01-10T13:40:58+00:00",
+  "modified_date": "2026-05-12T07:54:24+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 3000.0,
+  "bounty_rationale": "Security UI spoofing, Baseline // Lower Impact",
+  "attachments": [
+    {
+      "id": 72364196,
+      "filename": "poc-spooff.html",
+      "mime_type": "text/html",
+      "size_bytes": 1370,
+      "url": "https://issues.chromium.org/action/issues/474583539/attachments/72364196?download=true",
+      "local_path": "attachments/poc-spooff.html"
+    },
+    {
+      "id": 72364197,
+      "filename": "chromespoof#1.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 6010251,
+      "url": "https://issues.chromium.org/action/issues/474583539/attachments/72364197?download=true",
+      "local_path": "attachments/chromespoof#1.mp4"
+    },
+    {
+      "id": 72374742,
+      "filename": "Screenshot 2026-01-10 202522.png",
+      "mime_type": "image/png",
+      "size_bytes": 487068,
+      "url": "https://issues.chromium.org/action/issues/474583539/attachments/72374742?download=true",
+      "local_path": "attachments/Screenshot 2026-01-10 202522.png"
+    },
+    {
+      "id": 72374743,
+      "filename": "braveExpectedResults.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 5359215,
+      "url": "https://issues.chromium.org/action/issues/474583539/attachments/72374743?download=true",
+      "local_path": null
+    }
+  ],
+  "update_count": 41,
+  "description_snippet": "# Steps to reproduce the problem\n1. Open the attached poc-spooff.html\n2. Right-click the link and select “Open in Split View”.\n3. Observe the right pane displaying drive.google.com (trusted origin).\n4. After ~1 second, a native file picker dialog appears.\n5. Select an image file.\n6. The selected ima"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "477180001",
+  "url": "https://issues.chromium.org/issues/477180001",
+  "title": "Service Worker subresource responses expose detailed resource timing information for cross-origin resources that are normally restricted, leading to an information leak in the Resource Timing API",
+  "status": "Accepted",
+  "severity": "S3-Low",
+  "priority": "P2",
+  "component": "Blink>PerformanceAPIs>ResourceTiming",
+  "os_platforms": [
+    "Android",
+    "Linux",
+    "Mac",
+    "Windows",
+    "ChromeOS"
+  ],
+  "chrome_version": null,
+  "cve_ids": [],
+  "reporter": "po...@gmail.com",
+  "assignee": "su...@google.com",
+  "created_date": "2026-01-20T09:44:50+00:00",
+  "modified_date": "2026-05-12T07:54:20+00:00",
+  "bounty_confirmed": true,
+  "bounty_amount": 2000.0,
+  "bounty_rationale": "Low impact user information disclosure",
+  "attachments": [
+    {
+      "id": 72646323,
+      "filename": "fetch_timing.mp4",
+      "mime_type": "video/mp4",
+      "size_bytes": 2085065,
+      "url": "https://issues.chromium.org/action/issues/477180001/attachments/72646323?download=true",
+      "local_path": null
+    },
+    {
+      "id": 72646324,
+      "filename": "fetch_timing.zip",
+      "mime_type": "application/x-zip-compressed",
+      "size_bytes": 5031,
+      "url": "https://issues.chromium.org/action/issues/477180001/attachments/72646324?download=true",
+      "local_path": "attachments/fetch_timing.zip"
+    }
+  ],
+  "update_count": 55,
+  "description_snippet": "---\n\n### Report description\n\n\nService Worker subresource responses expose detailed resource timing information for cross-origin resources that are normally restricted, leading to an information leak in the Resource Timing API\n\n\n---\n\n### Bug location\n\n\n#### Where do you want to report your vulnerabil"
+}

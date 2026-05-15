@@ -21,6 +21,18 @@ cp _headers "${DIST}/"
 sed -i.bak 's|<meta charset="UTF-8">|<meta charset="UTF-8">\n    <meta name="vrp-deploy-mode" content="static">|' "${DIST}/index.html"
 rm -f "${DIST}/index.html.bak"
 
+# Fingerprint the mutable app bundle so Cloudflare cannot serve stale UI logic
+# from the custom-domain cache after a deployment.
+APP_JS="${DIST}/js/app.js"
+if command -v sha256sum >/dev/null 2>&1; then
+    APP_JS_HASH=$(sha256sum "${APP_JS}" | awk '{print substr($1, 1, 12)}')
+else
+    APP_JS_HASH=$(shasum -a 256 "${APP_JS}" | awk '{print substr($1, 1, 12)}')
+fi
+cp "${APP_JS}" "${DIST}/js/app.${APP_JS_HASH}.js"
+sed -i.bak "s|src=\"js/app.js\"|src=\"js/app.${APP_JS_HASH}.js\"|" "${DIST}/index.html"
+rm -f "${DIST}/index.html.bak"
+
 # Copy top-level data files
 if [ ! -f "${DATA}/index.json" ] || [ ! -f "${DATA}/stats.json" ]; then
     echo "ERROR: ${DATA}/index.json or ${DATA}/stats.json missing. Run 'vrp index' first." >&2

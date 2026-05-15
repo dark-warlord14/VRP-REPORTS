@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Chrome logo</title>
+  <desc id="desc">A Chrome-style circular logo with red, yellow, green, and blue segments.</desc>
+  <defs>
+    <clipPath id="circle">
+      <circle cx="128" cy="128" r="116"/>
+    </clipPath>
+  </defs>
+  <circle cx="128" cy="128" r="116" fill="#fbbc04"/>
+  <g clip-path="url(#circle)">
+    <path fill="#ea4335" d="M20 24h216v104H128L92 190z"/>
+    <path fill="#34a853" d="M92 190 128 128h108L132 308z"/>
+    <path fill="#fbbc04" d="M20 24 92 190l36-62z"/>
+  </g>
+  <circle cx="128" cy="128" r="54" fill="#4285f4"/>
+  <circle cx="128" cy="128" r="54" fill="none" stroke="#f1f3f4" stroke-width="14"/>
+</svg>
